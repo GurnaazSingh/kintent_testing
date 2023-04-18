@@ -1,0 +1,42 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: "%(asctime)s - %(name)s - %(thread)d - %(process)d - %(levelname)s - %(message)s"
+  error:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(module)s:lineno-%(lineno)d - %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+    stream: ext://sys.stdout
+
+  info_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: simple
+    filename: .\logs\info.log
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+  error_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: error
+    filename: .\logs\errors.log
+    maxBytes: 10485760 # 10MB
+    backupCount: 20
+    encoding: utf8
+
+loggers:
+    LC_travel_app:
+    level: INFO
+    handlers: [ console,info_file_handler,error_file_handler ]
+    propagate: no
+
+root:
+  level: WARNING
+  handlers: [ console ]
